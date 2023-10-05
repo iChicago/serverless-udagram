@@ -24,6 +24,8 @@ const getGroups: ValidatedEventAPIGatewayProxyEvent<any> = async (event) => {
     ScanIndexForward: false,
   }).promise();
 
+  console.log('Query image finished with result ', result);
+
   if(result.Count !==0){
     return {
       statusCode: 200,

@@ -1,8 +1,10 @@
-import { ResourceTypes, BillingMode } from '../../constants';
+import { ResourceTypes } from '../../constants';
 
 export const BucketPolicy = {
   Type: ResourceTypes.AWS_S3_Bucket_Policy,
   Properties: {
+    Bucket: "${self:provider.environment.IMAGES_S3_BUCKET}",
+    // AccessControl: "PublicRead",
     PolicyDocument: {
       Id: "MyPolicy",
       Version: "2012-10-17",
@@ -13,9 +15,6 @@ export const BucketPolicy = {
           Principal: '*',
           Action: 's3:GetObject',
           Resource: 'arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*',
-          Bucket: {
-            Ref: "S3Bucket"
-          }
         }
       ]
     }

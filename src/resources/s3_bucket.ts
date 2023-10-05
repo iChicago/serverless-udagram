@@ -4,16 +4,18 @@ export const S3Bucket = {
   Type: ResourceTypes.AWS_S3_Bucket,
   Properties: {
     BucketName: "${self:provider.environment.IMAGES_S3_BUCKET}",
-    // needed here instead of sendNotification index because s3 will attempt to crate a new buckt while its already exists
-    NotificationConfiguration: {
-      LambdaConfigurations: [
+    OwnershipControls:{
+      Rules: [
         {
-          Event: "s3:ObjectCreated:*",
-          Function: {
-            'Fn::GetAtt': ["SendUploadNotificationsLambdaFunction", "Arn"]
-          }
+          ObjectOwnership: "ObjectWriter",
         }
       ],
+    },
+    PublicAccessBlockConfiguration: {
+      BlockPublicAcls: false,
+      BlockPublicPolicy: false,
+      IgnorePublicAcls: false,
+      RestrictPublicBuckets: false,
     },
     CorsConfiguration:{
       CorsRules: [

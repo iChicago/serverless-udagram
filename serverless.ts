@@ -10,6 +10,7 @@ import sendUploadNotifications from '@functions/s3/sendUploadNotifications';
 import {DynamoDBTableGroup} from './src/resources/dynamo_db_table_group';
 import {DynamoDBTableImage} from './src/resources/dynamo_db_table_image';
 import {S3Bucket} from './src/resources/s3_bucket';
+import {BucketPolicy} from './src/resources/bucket_policy';
 import {SendUploadNotificationsPermission} from './src/resources/sendUploadNotificationsPermission';
 
 const serverlessConfiguration: AWS = {
@@ -92,6 +93,7 @@ const serverlessConfiguration: AWS = {
       DynamoDBTableGroup: DynamoDBTableGroup,
       DynamoDBTableImage: DynamoDBTableImage,
       S3Bucket: S3Bucket,
+      BucketPolicy: BucketPolicy,
       SendUploadNotificationsPermission: SendUploadNotificationsPermission,
     }
   },
