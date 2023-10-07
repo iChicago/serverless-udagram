@@ -6,6 +6,7 @@ export class ResourceTypes {
     static readonly AWS_Lambda_Function = 'AWS::Lambda::Function';
     static readonly AWS_Lambda_Permission = 'AWS::Lambda::Permission';
     static readonly AWS_Elasticsearch_Domain = 'AWS::Elasticsearch::Domain';
+    static readonly AWS_SNS_TOPIC_POLICY = 'AWS::SNS::TopicPolicy';
     // Add more resource types as needed
     // https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html
 }

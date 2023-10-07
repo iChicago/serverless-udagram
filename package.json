@@ -13,6 +13,8 @@
     "@elastic/elasticsearch": "^8.10.0",
     "@middy/core": "^3.4.0",
     "@middy/http-json-body-parser": "^3.4.0",
+    "aws-xray-sdk": "^3.5.2",
+    "jimp": "^0.22.10",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

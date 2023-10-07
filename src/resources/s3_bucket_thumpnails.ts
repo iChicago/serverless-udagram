@@ -1,20 +1,9 @@
 import { ResourceTypes } from '../../constants';
 
-export const S3Bucket = {
+export const S3BucketThumpnails = {
   Type: ResourceTypes.AWS_S3_Bucket,
-  DependsOn: ["SNSTopicPolicy"],
   Properties: {
     BucketName: "${self:provider.environment.IMAGES_S3_BUCKET}",
-    NotificationConfiguration: {
-      TopicConfigurations: [
-        {
-          Event: "s3:ObjectCreated:Put",
-          Topic: {
-            Ref: "SNSTopicImages",
-          },
-        },
-      ],
-    },
     OwnershipControls:{
       Rules: [
         {
@@ -42,6 +31,16 @@ export const S3Bucket = {
           ],
           MaxAge: "3000",
         }
+      ],
+    },
+    NotificationConfiguration: {
+      TopicConfigurations: [
+        {
+          Event: "s3:ObjectCreated:Put",
+          Topic: {
+            Ref: "SNSTopicImages",
+          },
+        },
       ],
     },
   },

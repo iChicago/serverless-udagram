@@ -9,14 +9,17 @@ import websocketDisconnect from '@functions/websocket/websocketDisconnect';
 import getImage from '@functions/http/getImage';
 import createImage from '@functions/http/createImage';
 import sendUploadNotifications from '@functions/s3/sendUploadNotifications';
-import elasticSearchSync from '@functions/dynamoDb/elasticSearchSync';
+// import resizeImage from '@functions/s3/resizeImage';
+// import elasticSearchSync from '@functions/dynamoDb/elasticSearchSync';
 import {DynamoDBTableGroup} from './src/resources/dynamo_db_table_group';
 import {DynamoDBTableImage} from './src/resources/dynamo_db_table_image';
 import {DynamoDBTableWebsokcetConnectinos} from './src/resources/dynamo_db_table_websocket_connections';
 import {S3Bucket} from './src/resources/s3_bucket';
 import {BucketPolicy} from './src/resources/bucket_policy';
 import {SendUploadNotificationsPermission} from './src/resources/send_upload_notifications_permission';
-import {ElasticSearchCluster} from './src/resources/elastic_search_cluster';
+// import {ElasticSearchCluster} from './src/resources/elastic_search_cluster';
+import {SNSTopicImages} from './src/resources/sns_topic_images';
+import {SNSTopicPolicy} from './src/resources/sns_topic_policy';
 
 const serverlessConfiguration: AWS = {
   configValidationMode: 'error',
@@ -44,7 +47,7 @@ const serverlessConfiguration: AWS = {
       IMAGE_ID_INDEX: "ImageIdIndex",
       IMAGES_S3_BUCKET: "myservice-attachments-${self:provider.stage}",
       SIGNED_URL_EXPIRATION: "300",
-      THUMBNAILS_S3_BUCKET: "serverless-udagram-thumbnail-${self:provider.stage}",
+      THUMBNAILS_S3_BUCKET: "myservice-attachments-thumbnail-${self:provider.stage}",
     },
     iam:{
       role: {
@@ -90,6 +93,13 @@ const serverlessConfiguration: AWS = {
             ],
             Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.CONNECTIONS_TABLE}",
           },
+          {
+            Effect: 'Allow',
+            Action: [
+              's3:PutObject',
+            ],
+            Resource: "arn:aws:s3:::${self:provider.environment.THUMBNAILS_S3_BUCKET}/*",
+          },
         ],
       }
     }
@@ -105,7 +115,8 @@ const serverlessConfiguration: AWS = {
      sendUploadNotifications,
      websocketConnect,
      websocketDisconnect,
-     elasticSearchSync,
+    //  elasticSearchSync,
+     //resizeImage,
   },
   // create resources
   resources: {
@@ -113,14 +124,18 @@ const serverlessConfiguration: AWS = {
       DynamoDBTableGroup: DynamoDBTableGroup,
       DynamoDBTableImage: DynamoDBTableImage,
       DynamoDBTableWebsokcetConnectinos: DynamoDBTableWebsokcetConnectinos,
+      SNSTopicImages: SNSTopicImages,
+      SNSTopicPolicy: SNSTopicPolicy,
       S3Bucket: S3Bucket,
       BucketPolicy: BucketPolicy,
       SendUploadNotificationsPermission: SendUploadNotificationsPermission,
-      ElasticSearchCluster: ElasticSearchCluster,
+      // ElasticSearchCluster: ElasticSearchCluster,
     }
   },
   package: { individually: true },
   custom: {
+    // we cuould add to to environment variable as usual, be we don't need to pass it to lambda function
+    topicName: "snsTopicImages-${self:provider.stage}",
     esbuild: {
       bundle: true,
       minify: false,

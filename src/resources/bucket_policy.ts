@@ -2,6 +2,7 @@ import { ResourceTypes } from '../../constants';
 
 export const BucketPolicy = {
   Type: ResourceTypes.AWS_S3_Bucket_Policy,
+  DependsOn: ["S3Bucket"],
   Properties: {
     Bucket: "${self:provider.environment.IMAGES_S3_BUCKET}",
     // AccessControl: "PublicRead",
@@ -15,7 +16,7 @@ export const BucketPolicy = {
           Principal: '*',
           Action: 's3:GetObject',
           Resource: 'arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*',
-        }
+        },
       ]
     }
   },
