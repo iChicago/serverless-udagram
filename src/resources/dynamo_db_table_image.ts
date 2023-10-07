@@ -42,6 +42,9 @@ export const DynamoDBTableImage = {
         }
       }
     ],
-    BillingMode: BillingMode.PAY_PER_REQUEST
+    BillingMode: BillingMode.PAY_PER_REQUEST,
+    StreamSpecification: {
+      StreamViewType: "NEW_IMAGE",
+    },
   },
 };

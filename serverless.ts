@@ -9,12 +9,14 @@ import websocketDisconnect from '@functions/websocket/websocketDisconnect';
 import getImage from '@functions/http/getImage';
 import createImage from '@functions/http/createImage';
 import sendUploadNotifications from '@functions/s3/sendUploadNotifications';
+import elasticSearchSync from '@functions/dynamoDb/elasticSearchSync';
 import {DynamoDBTableGroup} from './src/resources/dynamo_db_table_group';
 import {DynamoDBTableImage} from './src/resources/dynamo_db_table_image';
 import {DynamoDBTableWebsokcetConnectinos} from './src/resources/dynamo_db_table_websocket_connections';
 import {S3Bucket} from './src/resources/s3_bucket';
 import {BucketPolicy} from './src/resources/bucket_policy';
-import {SendUploadNotificationsPermission} from './src/resources/sendUploadNotificationsPermission';
+import {SendUploadNotificationsPermission} from './src/resources/send_upload_notifications_permission';
+import {ElasticSearchCluster} from './src/resources/elastic_search_cluster';
 
 const serverlessConfiguration: AWS = {
   configValidationMode: 'error',
@@ -29,6 +31,7 @@ const serverlessConfiguration: AWS = {
     name: 'aws',
     runtime: 'nodejs14.x',
     apiGateway: {
+      metrics: true,
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,
     },
@@ -83,7 +86,7 @@ const serverlessConfiguration: AWS = {
             Action: [
               'dynamodb:Scan',
               'dynamodb:PutItem',
-              'dynamodb:GetItem',
+              'dynamodb:DeleteItem',
             ],
             Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.CONNECTIONS_TABLE}",
           },
@@ -102,6 +105,7 @@ const serverlessConfiguration: AWS = {
      sendUploadNotifications,
      websocketConnect,
      websocketDisconnect,
+     elasticSearchSync,
   },
   // create resources
   resources: {
@@ -112,6 +116,7 @@ const serverlessConfiguration: AWS = {
       S3Bucket: S3Bucket,
       BucketPolicy: BucketPolicy,
       SendUploadNotificationsPermission: SendUploadNotificationsPermission,
+      ElasticSearchCluster: ElasticSearchCluster,
     }
   },
   package: { individually: true },
