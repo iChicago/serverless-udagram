@@ -33,15 +33,5 @@ export const S3BucketThumpnails = {
         }
       ],
     },
-    NotificationConfiguration: {
-      TopicConfigurations: [
-        {
-          Event: "s3:ObjectCreated:Put",
-          Topic: {
-            Ref: "SNSTopicImages",
-          },
-        },
-      ],
-    },
   },
 };
