@@ -9,7 +9,9 @@ export const S3Bucket = {
       TopicConfigurations: [
         {
           Event: "s3:ObjectCreated:Put",
-          Topic: "arn:aws:sns:us-east-1:631631952704:snsTopicImages-dev",
+          Topic: {
+            Ref: "SNSTopicImages",
+          },
         },
       ],
     },

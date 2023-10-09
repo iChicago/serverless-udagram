@@ -18,13 +18,12 @@ export const SNSTopicPolicy = {
           },
           Condition: {
             ArnLike: {
-              // 'AWS:SourceArn': `arn:aws:s3:::${process.env.IMAGES_S3_BUCKET}`,
               "aws:SourceArn": {
                 "Fn::Join": [
                   "",
                   [
                     "arn:aws:s3:::",
-                    "${process.env.IMAGES_S3_BUCKET}"
+                    "${self:provider.environment.IMAGES_S3_BUCKET}"
                   ]
                 ]
               }
