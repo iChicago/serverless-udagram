@@ -13,11 +13,14 @@
     "@elastic/elasticsearch": "^8.10.0",
     "@middy/core": "^3.4.0",
     "@middy/http-json-body-parser": "^3.4.0",
+    "@middy/secrets-manager": "^4.6.4",
     "aws-xray-sdk": "^3.5.2",
     "jimp": "^0.22.10",
+    "jsonwebtoken": "^9.0.2",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.427.0",
     "@serverless/typescript": "^3.0.0",
     "@types/aws-lambda": "^8.10.71",
     "@types/node": "^14.14.25",

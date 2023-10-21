@@ -10,6 +10,7 @@ import getImage from '@functions/http/getImage';
 import createImage from '@functions/http/createImage';
 import sendUploadNotifications from '@functions/s3/sendUploadNotifications';
 import resizeImage from '@functions/s3/resizeImage';
+import hs256Auth0Authorizer from '@functions/auth/hs256Auth0Authorizer';
 // import elasticSearchSync from '@functions/dynamoDb/elasticSearchSync';
 import {DynamoDBTableGroup} from './src/resources/dynamo_db_table_group';
 import {DynamoDBTableImage} from './src/resources/dynamo_db_table_image';
@@ -19,6 +20,10 @@ import {S3BucketThumpnails} from './src/resources/s3_bucket_thumpnails';
 import {BucketPolicy} from './src/resources/bucket_policy';
 import {BucketPolicyThumpnails} from './src/resources/bucket_policy_thumpnails';
 import {SendUploadNotificationsPermission} from './src/resources/send_upload_notifications_permission';
+import {GatewayResponseDefault4XX} from './src/resources/gateway_response_default_4xx';
+import {KMSKey} from './src/resources/kms_key';
+import {KMSKeyAlias} from './src/resources/kms_key_alias';
+import {Auth0Secret} from './src/resources/auth0_secret';
 // import {ElasticSearchCluster} from './src/resources/elastic_search_cluster';
 import {SNSTopicImages} from './src/resources/sns_topic_images';
 import {SNSTopicPolicy} from './src/resources/sns_topic_policy';
@@ -50,6 +55,8 @@ const serverlessConfiguration: AWS = {
       IMAGES_S3_BUCKET: "myservice-attachments-${self:provider.stage}",
       SIGNED_URL_EXPIRATION: "300",
       THUMBNAILS_S3_BUCKET: "myservice-attachments-thumbnail-${self:provider.stage}",
+      AUTH_0_SECRET_ID: "Auth0Secret-${self:provider.stage}",
+      AUTH_0_SECRET_FIELD: "auth0Secret",
     },
     iam:{
       role: {
@@ -102,12 +109,23 @@ const serverlessConfiguration: AWS = {
             ],
             Resource: "arn:aws:s3:::${self:provider.environment.THUMBNAILS_S3_BUCKET}/*",
           },
+          {
+            Effect: 'Allow',
+            Action: ['secretsmanager:GetSecretValue'],
+            Resource: { Ref: 'Auth0Secret' },
+          },
+          {
+            Effect: 'Allow',
+            Action: ['kms:Decrypt'],
+            Resource: { 'Fn::GetAtt': ['KMSKey', 'Arn'] },
+          },
         ],
       }
     }
   },
   // import the function via paths
   functions: {
+     hs256Auth0Authorizer,
      hello,
      getGroups,
      createGroup,
@@ -123,6 +141,7 @@ const serverlessConfiguration: AWS = {
   // create resources
   resources: {
     Resources: {
+      GatewayResponseDefault4XX: GatewayResponseDefault4XX,
       DynamoDBTableGroup: DynamoDBTableGroup,
       DynamoDBTableImage: DynamoDBTableImage,
       DynamoDBTableWebsokcetConnectinos: DynamoDBTableWebsokcetConnectinos,
@@ -133,6 +152,9 @@ const serverlessConfiguration: AWS = {
       BucketPolicy: BucketPolicy,
       BucketPolicyThumpnails: BucketPolicyThumpnails,
       SendUploadNotificationsPermission: SendUploadNotificationsPermission,
+      KMSKey,
+      KMSKeyAlias,
+      Auth0Secret,
       // ElasticSearchCluster: ElasticSearchCluster,
     }
   },

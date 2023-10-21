@@ -10,6 +10,9 @@ export default {
         method: 'post',
         path: 'groups/{groupId}/images',
         cors: true,
+        authorizer: {
+          name: 'hs256Auth0Authorizer',
+        }, 
         request: {
           schemas: {
             'application/json': schema,

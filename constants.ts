@@ -7,6 +7,10 @@ export class ResourceTypes {
     static readonly AWS_Lambda_Permission = 'AWS::Lambda::Permission';
     static readonly AWS_Elasticsearch_Domain = 'AWS::Elasticsearch::Domain';
     static readonly AWS_SNS_TOPIC_POLICY = 'AWS::SNS::TopicPolicy';
+    static readonly AWS_API_GATEWAY_GATEWAY_RESPONSE = 'AWS::ApiGateway::GatewayResponse';
+    static readonly AWS_KMS_KEY = 'AWS::KMS::Key';
+    static readonly AWS_KMS_ALIAS = 'AWS::KMS::Alias';
+    static readonly AWS_SECRETS_MANAGER_SECRET = 'AWS::SecretsManager::Secret';
     // Add more resource types as needed
     // https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html
 }
