@@ -1,12 +1,12 @@
 import { ResourceTypes } from '../../constants';
 
-export const BucketPolicy = {
+export const BucketPolicyThumpnails = {
   Type: ResourceTypes.AWS_S3_Bucket_Policy,
-  DependsOn: ["S3Bucket"],
+  DependsOn: ["S3BucketThumpnails"],
   Properties: {
-    Bucket: "${self:provider.environment.IMAGES_S3_BUCKET}",
+    Bucket: "${self:provider.environment.THUMBNAILS_S3_BUCKET}",
     PolicyDocument: {
-      Id: "MyPolicy",
+      Id: "BucketPolicyThumpnails",
       Version: "2012-10-17",
       Statement: [
         {
@@ -14,7 +14,7 @@ export const BucketPolicy = {
           Effect: "Allow",
           Principal: '*',
           Action: 's3:GetObject',
-          Resource: 'arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*',
+          Resource: 'arn:aws:s3:::${self:provider.environment.THUMBNAILS_S3_BUCKET}/*',
         },
       ]
     }

@@ -10,7 +10,7 @@ const s3 = new XAWS.S3()
 const imagesBucketName = process.env.IMAGES_S3_BUCKET
 const thumbnailBucketName = process.env.THUMBNAILS_S3_BUCKET
 
-export const handler: SNSHandler = async (event: SNSEvent) => {
+const handler: SNSHandler = async (event: SNSEvent) => {
   console.log('Processing SNS event ', JSON.stringify(event))
   for (const snsRecord of event.Records) {
     const s3EventStr = snsRecord.Sns.Message
@@ -49,3 +49,5 @@ async function processImage(record: S3EventRecord) {
     })
     .promise()
 }
+
+export const main = handler;

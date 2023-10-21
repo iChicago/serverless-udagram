@@ -3,7 +3,7 @@ import { ResourceTypes } from '../../constants';
 export const S3BucketThumpnails = {
   Type: ResourceTypes.AWS_S3_Bucket,
   Properties: {
-    BucketName: "${self:provider.environment.IMAGES_S3_BUCKET}",
+    BucketName: "${self:provider.environment.THUMBNAILS_S3_BUCKET}",
     OwnershipControls:{
       Rules: [
         {

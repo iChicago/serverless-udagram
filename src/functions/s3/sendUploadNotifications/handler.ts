@@ -16,7 +16,7 @@ const connectionParams = {
 
 const apiGateway = new AWS.ApiGatewayManagementApi(connectionParams)
 
-export const handler: SNSHandler = async (event: SNSEvent) => {
+const handler: SNSHandler = async (event: SNSEvent) => {
   console.log('Processing SNS event ', JSON.stringify(event))
   for (const snsRecord of event.Records) {
     const s3EventStr = snsRecord.Sns.Message
@@ -71,3 +71,5 @@ async function sendMessageToClient(connectionId, payload) {
     }
   }
 }
+
+export const main = handler;

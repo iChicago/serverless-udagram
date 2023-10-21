@@ -9,13 +9,15 @@ import websocketDisconnect from '@functions/websocket/websocketDisconnect';
 import getImage from '@functions/http/getImage';
 import createImage from '@functions/http/createImage';
 import sendUploadNotifications from '@functions/s3/sendUploadNotifications';
-// import resizeImage from '@functions/s3/resizeImage';
+import resizeImage from '@functions/s3/resizeImage';
 // import elasticSearchSync from '@functions/dynamoDb/elasticSearchSync';
 import {DynamoDBTableGroup} from './src/resources/dynamo_db_table_group';
 import {DynamoDBTableImage} from './src/resources/dynamo_db_table_image';
 import {DynamoDBTableWebsokcetConnectinos} from './src/resources/dynamo_db_table_websocket_connections';
 import {S3Bucket} from './src/resources/s3_bucket';
+import {S3BucketThumpnails} from './src/resources/s3_bucket_thumpnails';
 import {BucketPolicy} from './src/resources/bucket_policy';
+import {BucketPolicyThumpnails} from './src/resources/bucket_policy_thumpnails';
 import {SendUploadNotificationsPermission} from './src/resources/send_upload_notifications_permission';
 // import {ElasticSearchCluster} from './src/resources/elastic_search_cluster';
 import {SNSTopicImages} from './src/resources/sns_topic_images';
@@ -115,8 +117,8 @@ const serverlessConfiguration: AWS = {
      sendUploadNotifications,
      websocketConnect,
      websocketDisconnect,
+     resizeImage,
     //  elasticSearchSync,
-     //resizeImage,
   },
   // create resources
   resources: {
@@ -127,7 +129,9 @@ const serverlessConfiguration: AWS = {
       SNSTopicImages: SNSTopicImages,
       SNSTopicPolicy: SNSTopicPolicy,
       S3Bucket: S3Bucket,
+      S3BucketThumpnails: S3BucketThumpnails,
       BucketPolicy: BucketPolicy,
+      BucketPolicyThumpnails: BucketPolicyThumpnails,
       SendUploadNotificationsPermission: SendUploadNotificationsPermission,
       // ElasticSearchCluster: ElasticSearchCluster,
     }
@@ -136,6 +140,7 @@ const serverlessConfiguration: AWS = {
   custom: {
     // we cuould add to to environment variable as usual, be we don't need to pass it to lambda function
     topicName: "snsTopicImages-${self:provider.stage}",
+    topicArn: "arn:aws:sns:${self:provider.region}:${AWS::AccountId}:${self:custom.topicName}",
     esbuild: {
       bundle: true,
       minify: false,
