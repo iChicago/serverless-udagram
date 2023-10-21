@@ -1,7 +1,7 @@
 import { APIGatewayTokenAuthorizerEvent, CustomAuthorizerResult } from 'aws-lambda'
 import { JwtToken } from '../../../auth/JwtToken'
 import middy from '@middy/core'
-import secretsManager from '@middy/secrets-manager'
+//import secretsManager from '@middy/secrets-manager'
 import * as AWS from 'aws-sdk';
 var jwt = require('jsonwebtoken');
 

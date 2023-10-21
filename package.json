@@ -12,6 +12,7 @@
   "dependencies": {
     "@elastic/elasticsearch": "^8.10.0",
     "@middy/core": "^3.4.0",
+    "@middy/http-cors": "^4.6.5",
     "@middy/http-json-body-parser": "^3.4.0",
     "@middy/secrets-manager": "^4.6.4",
     "aws-xray-sdk": "^3.5.2",

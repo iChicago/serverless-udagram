@@ -11,6 +11,7 @@ import createImage from '@functions/http/createImage';
 import sendUploadNotifications from '@functions/s3/sendUploadNotifications';
 import resizeImage from '@functions/s3/resizeImage';
 import hs256Auth0Authorizer from '@functions/auth/hs256Auth0Authorizer';
+import rs256Auth0Authorizer from '@functions/auth/rs256Auth0Authorizer';
 // import elasticSearchSync from '@functions/dynamoDb/elasticSearchSync';
 import {DynamoDBTableGroup} from './src/resources/dynamo_db_table_group';
 import {DynamoDBTableImage} from './src/resources/dynamo_db_table_image';
@@ -126,6 +127,7 @@ const serverlessConfiguration: AWS = {
   // import the function via paths
   functions: {
      hs256Auth0Authorizer,
+     rs256Auth0Authorizer,
      hello,
      getGroups,
      createGroup,

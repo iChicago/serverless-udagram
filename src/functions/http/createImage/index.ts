@@ -11,7 +11,8 @@ export default {
         path: 'groups/{groupId}/images',
         cors: true,
         authorizer: {
-          name: 'hs256Auth0Authorizer',
+          // name: 'hs256Auth0Authorizer',
+          name: 'rs256Auth0Authorizer',
         }, 
         request: {
           schemas: {
