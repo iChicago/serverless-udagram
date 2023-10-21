@@ -1,8 +1,10 @@
 import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
+import cors from '@middy/http-cors'
+
 
 import * as AWS from 'aws-sdk';
-import {HTTPHeaders} from '../../../../constants'
+//import {HTTPHeaders} from '../../../../constants'
 
 const docClient = new AWS.DynamoDB.DocumentClient();
 
@@ -19,9 +21,10 @@ const getGroups: ValidatedEventAPIGatewayProxyEvent<any> = async (event) => {
   
   return {
     statusCode: 200,
-    headers: HTTPHeaders,
+    // we will use middleware to apply the headers
+    //headers: HTTPHeaders,
     body: JSON.stringify(items)
   }
 };
 
-export const main = middyfy(getGroups);
+export const main = middyfy(getGroups).use(cors({credentials: true}));

@@ -21,5 +21,6 @@ export class BillingMode {
 }
 
 export const HTTPHeaders = {
-    'Access-Control-Allow-Origin': '*'
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Credentials': true,
 };
