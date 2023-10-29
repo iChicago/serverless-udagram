@@ -36,6 +36,7 @@ const serverlessConfiguration: AWS = {
   plugins: [
     'serverless-esbuild',
     'serverless-plugin-canary-deployments',
+    'serverless-iam-roles-per-function',
   ],
   provider: {
     tracing: {
