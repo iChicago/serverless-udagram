@@ -4,6 +4,9 @@ import middy from '@middy/core'
 //import secretsManager from '@middy/secrets-manager'
 import * as AWS from 'aws-sdk';
 var jwt = require('jsonwebtoken');
+import * as AWSXRay from 'aws-xray-sdk'
+
+const XAWS = AWSXRay.captureAWS(AWS)
 
 /**
  * Validae user token,
@@ -13,7 +16,7 @@ var jwt = require('jsonwebtoken');
 
 const secretId = process.env.AUTH_0_SECRET_ID
 const secretField = process.env.AUTH_0_SECRET_FIELD
-const secretManagerClient = new AWS.SecretsManager();
+const secretManagerClient = new XAWS.SecretsManager();
 
 // cache secret if the same lambda instance is reused. to save some mony.
 let cachedSecret: string;

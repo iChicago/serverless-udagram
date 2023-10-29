@@ -3,8 +3,11 @@ import { middyfy } from '@libs/lambda';
 
 import * as AWS from 'aws-sdk';
 import {HTTPHeaders} from '../../../../constants'
+import * as AWSXRay from 'aws-xray-sdk'
 
-const docClient = new AWS.DynamoDB.DocumentClient();
+const XAWS = AWSXRay.captureAWS(AWS)
+
+const docClient = new XAWS.DynamoDB.DocumentClient();
 
 const groupsTable = process.env.GROUPS_TABLE;
 const imagesTable = process.env.IMAGES_TABLE;

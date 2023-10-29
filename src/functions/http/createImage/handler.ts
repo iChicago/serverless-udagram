@@ -5,9 +5,13 @@ import * as AWS from 'aws-sdk';
 import {HTTPHeaders} from '../../../../constants';
 import { v4 as uuidv4 } from 'uuid';
 
-const docClient = new AWS.DynamoDB.DocumentClient();
+import * as AWSXRay from 'aws-xray-sdk'
 
-const s3 = new AWS.S3({
+const XAWS = AWSXRay.captureAWS(AWS)
+
+const docClient = new XAWS.DynamoDB.DocumentClient();
+
+const s3 = new XAWS.S3({
   signatureVersion: 'v4',
 })
 

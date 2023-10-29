@@ -38,6 +38,10 @@ const serverlessConfiguration: AWS = {
     'serverless-plugin-canary-deployments',
   ],
   provider: {
+    tracing: {
+      lambda: true,
+      apiGateway: true,
+    },
     stage: "${opt: stage, 'dev'}",
     region: 'us-east-1',
     name: 'aws',
