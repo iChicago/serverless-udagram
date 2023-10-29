@@ -24,3 +24,15 @@ export const HTTPHeaders = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Credentials': true,
 };
+
+export class DeploymentTypes {
+    static readonly Canary10Percent5Minutes = 'Canary10Percent5Minutes'; // shifts 10 percent of traffic in the first increment. The remaining 90 percent is deployed five minutes later.
+    static readonly Canary10Percent10Minutes = 'Canary10Percent10Minutes'; // shifts 10 percent of traffic in the first increment. The remaining 90 percent is deployed 10 minutes later.
+    static readonly Canary10Percent15Minutes = 'Canary10Percent15Minutes'; // shifts 10 percent of traffic in the first increment. The remaining 90 percent is deployed 15 minutes later.
+    static readonly Canary10Percent30Minutes = 'Canary10Percent30Minutes'; // shifts 10 percent of traffic in the first increment. The remaining 90 percent is deployed 30 minutes later.
+    static readonly Linear10PercentEvery1Minute = 'Linear10PercentEvery1Minute'; // shifts 10 percent of traffic every minute until all traffic is shifted.
+    static readonly Linear10PercentEvery2Minutes = 'Linear10PercentEvery2Minutes'; // shifts 10 percent of traffic every two minutes until all traffic is shifted.
+    static readonly Linear10PercentEvery3Minutes = 'Linear10PercentEvery3Minutes'; // shifts 10 percent of traffic every three minutes until all traffic is shifted.
+    static readonly Linear10PercentEvery10Minutes = 'Linear10PercentEvery10Minutes'; // shifts 10 percent of traffic every 10 minutes until all traffic is shifted.
+    static readonly AllAtOnce = 'AllAtOnce'; // shifts all the traffic to the new version, useful when you only need to execute the validation hooks.
+}

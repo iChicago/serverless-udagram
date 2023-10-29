@@ -13,6 +13,8 @@ const handler: ValidatedEventAPIGatewayProxyEvent<any> = async (event) => {
   const authorization = event.headers.Authorization
   const split = authorization.split(' ')
   const jwtToken = split[1]
+
+  console.log('Creating a new group ', newGroup);
   
   const newItem = await createGroup(newGroup, jwtToken);
 

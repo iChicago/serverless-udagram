@@ -35,6 +35,7 @@ const serverlessConfiguration: AWS = {
   frameworkVersion: '3',
   plugins: [
     'serverless-esbuild',
+    'serverless-plugin-canary-deployments',
   ],
   provider: {
     stage: "${opt: stage, 'dev'}",
@@ -62,6 +63,11 @@ const serverlessConfiguration: AWS = {
     iam:{
       role: {
         statements: [
+          {
+            Effect: 'Allow',
+            Action: ['codedeploy:*'],
+            Resource: "*",
+          },
           {
             Effect: 'Allow',
             Action: [
