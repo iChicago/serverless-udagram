@@ -3,21 +3,13 @@ import { middyfy } from '@libs/lambda';
 import cors from '@middy/http-cors'
 
 
-import * as AWS from 'aws-sdk';
+import { getAllGroups } from 'src/businessLogic/groups';
 //import {HTTPHeaders} from '../../../../constants'
-
-const docClient = new AWS.DynamoDB.DocumentClient();
-
-const groupsTable = process.env.GROUPS_TABLE;
 
 const getGroups: ValidatedEventAPIGatewayProxyEvent<any> = async (event) => {
   console.log('Processing Event: ', event);
 
-  const result = await docClient.scan({
-    TableName: groupsTable
-  }).promise();
-
-  const items = result.Items;
+  const items = await getAllGroups();
   
   return {
     statusCode: 200,

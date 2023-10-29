@@ -1,36 +1,21 @@
 import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
 
-import * as AWS from 'aws-sdk';
-import { v4 as uuidv4 } from 'uuid';
 import {HTTPHeaders} from '../../../../constants'
-import { getUserId } from 'src/auth/utils';
+import { CreateGroupRequest } from 'src/requests/CreateGroupRequest';
+import { createGroup } from 'src/businessLogic/groups';
 
-const docClient = new AWS.DynamoDB.DocumentClient();
-const groupsTable = process.env.GROUPS_TABLE;
-
-const createGroup: ValidatedEventAPIGatewayProxyEvent<any> = async (event) => {
+const handler: ValidatedEventAPIGatewayProxyEvent<any> = async (event) => {
   console.log('Processing Event: ', event);
-
-  const itemId = uuidv4();
-
-  const parsedBody = JSON.parse(JSON.stringify(event.body));
+  
+  const newGroup: CreateGroupRequest = JSON.parse(JSON.stringify(event.body));
 
   const authorization = event.headers.Authorization
   const split = authorization.split(' ')
   const jwtToken = split[1]
   
-  const newItem = {
-    id: itemId,
-    userId: getUserId(jwtToken),
-    ...parsedBody,
-  }
+  const newItem = await createGroup(newGroup, jwtToken);
 
-  await docClient.put({
-    TableName: groupsTable,
-    Item: newItem,
-  }).promise();
-  
   return {
     statusCode: 201,
     headers: HTTPHeaders,
@@ -38,4 +23,4 @@ const createGroup: ValidatedEventAPIGatewayProxyEvent<any> = async (event) => {
   }
 };
 
-export const main = middyfy(createGroup);
+export const main = middyfy(handler);
